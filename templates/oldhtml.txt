@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neil Young Hangman</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#f0f0f0">
+  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  
+</head>
+<body>
+  <main>
+    <header>
+      <img src="{{ url_for('static', filename='BArrow-R.gif') }}" alt="Neil Young Arrow" class="logo" />
+      <h1>Hangman: Neil Young Edition</h1>
+    </header>
+
+    <section class="game">
+      <div class="hangman">
+		<img src="{{ url_for('static', filename='hangman' ~ wrong ~ '.svg') }}" alt="Hangman" style="height: 250px;">
+      </div>
+
+      <div class="word-box">
+        <p class="word-label">Guess the Song Title:</p>
+	<div class="word-display">
+	  {% for word in masked %}
+		<span class="word">
+		  {% for char in word %}
+			<span class="char">{{ char if char != '_' else '' }}</span>
+		  {% endfor %}
+		</span>
+	  {% endfor %}
+	</div>
+        <p class="guesses">Guessed Letters: <strong>{{ guesses | join(', ') }}</strong></p>
+        <p class="status">Wrong guesses: <strong>{{ wrong }}</strong> | Remaining: <strong>{{ remaining }}</strong></p>
+      </div>
+
+	{% if won %}
+        <h2>🤘 You won! The song was: "{{ full_title }}"</h2>
+		<img src="{{ url_for('static', filename='face70s.gif') }}" alt="Neil Young Celebrates" style="max-height: 200px; margin-top: 1em;">        
+		<audio autoplay loop>
+            <source src="{{ url_for('static', filename='neil_young_win.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <a href="/reset">Play again</a>
+    {% elif lost %}
+        <h2>💀 You lost! The song was: "{{ full_title }}"</h2>
+		<audio autoplay loop>
+            <source src="{{ url_for('static', filename='dead_man_theme.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <a href="/reset">Try again</a>
+    {% else %}
+        <form method="POST">
+            <label for="guess">Enter a letter:</label>
+            <input type="text" name="guess" maxlength="1" required />
+            <input type="submit" value="Guess" />
+        </form>
+    {% endif %}
+	<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/static/service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg))
+      .catch(err => console.error('Service Worker failed:', err));
+  }
+  
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<svg width="200" height="250" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gallows Base -->
+  <line x1="20" y1="230" x2="180" y2="230" stroke="black" stroke-width="4"/>
+  <!-- Gallows Vertical Post -->
+  <line x1="50" y1="230" x2="50" y2="30" stroke="black" stroke-width="4"/>
+  <!-- Gallows Horizontal Beam -->
+  <line x1="50" y1="30" x2="150" y2="30" stroke="black" stroke-width="4"/>
+  <!-- Gallows Rope -->
+  <line x1="150" y1="30" x2="150" y2="60" stroke="black" stroke-width="4"/>
+
+  <!-- Calendar Head -->
+  <rect x="115" y="65" width="70" height="70" rx="5" ry="5" stroke="black" stroke-width="4" fill="white"/>
+  <path d="M120 65 C120 55, 125 55, 125 65" stroke="black" stroke-width="3" fill="none"/>
+  <path d="M130 65 C130 55, 135 55, 135 65" stroke="black" stroke-width="3" fill="none"/>
+  <path d="M140 65 C140 55, 145 55, 145 65" stroke="black" stroke-width="3" fill="none"/>
+  <path d="M150 65 C150 55, 155 55, 155 65" stroke="black" stroke-width="3" fill="none"/>
+  <path d="M160 65 C160 55, 165 55, 165 65" stroke="black" stroke-width="3" fill="none"/>
+  <path d="M170 65 C170 55, 175 55, 175 65" stroke="black" stroke-width="3" fill="none"/>
+  <line x1="115" y1="80" x2="185" y2="80" stroke="black" stroke-width="1"/>
+  <line x1="115" y1="95" x2="185" y2="95" stroke="black" stroke-width="1"/>
+  <line x1="115" y1="110" x2="185" y2="110" stroke="black" stroke-width="1"/>
+  <line x1="115" y1="125" x2="185" y2="125" stroke="black" stroke-width="1"/>
+  <line x1="130" y1="65" x2="130" y2="135" stroke="black" stroke-width="1"/>
+  <line x1="145" y1="65" x2="145" y2="135" stroke="black" stroke-width="1"/>
+  <line x1="160" y1="65" x2="160" y2="135" stroke="black" stroke-width="1"/>
+  <line x1="175" y1="65" x2="175" y2="135" stroke="black" stroke-width="1"/>
+
+  <!-- Body (adjusted to connect to the calendar) -->
+  <line x1="150" y1="135" x2="150" y2="185" stroke="black" stroke-width="4"/>
+  <!-- Left Arm (adjusted) -->
+  <line x1="150" y1="155" x2="120" y2="175" stroke="black" stroke-width="4"/>
+</svg>

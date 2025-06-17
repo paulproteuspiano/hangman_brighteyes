@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Calendar Hung Itself</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <link rel="preload" as="audio" href="{{ url_for('static', filename='audio/win.mp3') }}">
+  <link rel="preload" as="audio" href="{{ url_for('static', filename='audio/lose.mp3') }}">
+</head>
+<body>
+      <img src="{{ url_for('static', filename='beskel.jpg') }}" alt="BE Skeleton" class="logo" style="height: 50px;" />
+      <h1>The Calendar Hung Itself</h1>
+
+    <section class="game">
+      <div class="hangman">
+		<img src="{{ url_for('static', filename='hangman' ~ wrong ~ '.svg') }}" alt="Hangman" style="height: 250px;">
+      </div>
+
+      <div class="word-box">
+        <p class="word-label">Guess the Song Title:</p>
+	<div class="word-display">
+	  {% for word in masked %}
+		<span class="word">
+		  {% for char in word %}
+			<span class="char">{{ char if char != '_' else '' }}</span>
+		  {% endfor %}
+		</span>
+	  {% endfor %}
+	</div>
+        <p class="guesses">Guessed Letters: <strong>{{ guesses | join(', ') }}</strong></p>
+        <p class="status">Wrong guesses: <strong>{{ wrong }}</strong> | Remaining: <strong>{{ remaining }}</strong></p>
+      </div>
+
+
+    {% if not won and not lost %}
+      <form method="POST">
+        <input type="text" name="guess" maxlength="1" required autofocus pattern="[a-zA-Z]" />
+        <button type="submit">Guess</button>
+      </form>
+    {% endif %}
+
+    {% if won %}
+      <h2>👁 You won! 👁</h2>
+      <p>The song was: <strong>{{ full_title }}</strong></p>
+      <div class="celebration">
+        <img src="{{ url_for('static', filename='yellowbird.gif') }}" alt="You Win" />
+      </div>
+    {% elif lost %}
+      <h2>💀 You lost.</h2>
+      <p>The song was: <strong>{{ full_title }}</strong></p>
+	  <div class="celebration">
+        <img src="{{ url_for('static', filename='casket.gif') }}" alt="You Lose" />
+      </div>
+    {% endif %}
+
+    <p><a href="{{ url_for('reset') }}">Play Again</a></p>
+  </section>
+
+  {% if won or lost %}
+  <script>
+    if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/static/service-worker.js')
+      .then(reg => console.log('Service Worker registered:', reg))
+      .catch(err => console.error('Service Worker failed:', err));
+  }
+    document.addEventListener("DOMContentLoaded", function () {
+      function enableSound() {
+        document.removeEventListener("click", enableSound);
+        document.removeEventListener("keydown", enableSound);
+		document.removeEventListener("touchstart", enableSound);
+
+
+        const audio = new Audio("{% if won %}{{ url_for('static', filename='audio/win1.mp3') }}{% else %}{{ url_for('static', filename='audio/lose1.mp3') }}{% endif %}");
+        if (audio.paused) {
+		audio.play().catch(err => console.log("Playback failed:", err));
+		audio.loop = true;
+		}
+      }
+
+      document.addEventListener("click", enableSound);
+      document.addEventListener("keydown", enableSound);
+	  document.addEventListener("touchstart", enableSound);
+    });
+  </script>
+  {% endif %}
+</body>
+</html>
