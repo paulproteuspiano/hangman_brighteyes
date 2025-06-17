@@ -41,13 +41,13 @@
     {% endif %}
 
     {% if won %}
-      <h2>🎇 You won! 🎇</h2>
+      <h2>⚂ ⚂ ⚂ You won! ⚂ ⚂</h2>
       <p>The song was: <strong>{{ full_title }}</strong></p>
       <div class="celebration">
         <img src="{{ url_for('static', filename='yellowbird.gif') }}" alt="You Win" />
       </div>
     {% elif lost %}
-      <h2>💀 You lost.</h2>
+      <h2>💀 You lost 💀</h2>
       <p>The song was: <strong>{{ full_title }}</strong></p>
 	  <div class="celebration">
         <img src="{{ url_for('static', filename='casket.gif') }}" alt="You Lose" />
