@@ -64,7 +64,6 @@ SONGS = [
     "Few Minutes on Friday",
     "Firewall",
     "First Day of My Life",
-    "The First Noël",
     "Forced Convalescence",
     "Four Winds",
     "From a Balance Beam",
@@ -207,7 +206,20 @@ SONGS = [
     "When the President Talks to God",
     "White Christmas",
     "You Get Yours",
-    "You Will. You? Will. You? Will. You? Will."
+    "You Will. You? Will. You? Will. You? Will.",
+    "Five Dice",
+    "Bells and Whistles",
+    "El Capitan",
+    "Bas Jan Ader",
+    "Tiny Suicides",
+    "All Threes",
+    "Rainbow Overpass",
+    "Hate",
+    "Real Feel 105",
+    "Spun Out",
+    "Trains Still Run on Time",
+    "The Time I Have Left",
+    "Tin Soldier Boy"
 ]
 
 
@@ -215,6 +227,24 @@ MAX_GUESSES = 6
 
 def pick_random_song():
     return random.choice(SONGS).upper()
+    
+def choose_new_song():
+# Initialize the list if not in session yet
+    if 'used_songs' not in session:
+        session['used_songs'] = []
+
+    # Get list of unused songs
+    unused = [song for song in SONGS if song not in session['used_songs']]
+
+    if not unused:
+        session['used_songs'] = []  # reset after all have been used
+        unused = SONGS.copy()
+
+    song = random.choice(unused)
+    session['used_songs'].append(song)
+    session.modified = True  # ensure session gets updated
+
+    return song
 
 def mask_title(title, guesses):
     masked = []
@@ -234,7 +264,7 @@ def mask_title(title, guesses):
 
 def index():
     if 'title' not in session:
-        session['title'] = pick_random_song()
+        session['title'] = choose_new_song()
         session['guesses'] = []
         session['wrong'] = 0
         session['won'] = False
@@ -245,7 +275,7 @@ def index():
         guess = request.form["guess"].upper()
         if guess.isalpha() and len(guess) == 1 and guess not in session['guesses']:
             session['guesses'].append(guess)
-            if guess not in session['title']:
+            if guess not in session['title'].upper():
                 session['wrong'] += 1
                 print("Wrong guess count:", session['wrong'])
         masked = mask_title(session['title'], session['guesses'])
